@@ -524,3 +524,5 @@ src/main/resources/application.properties
 src/components/auth.service.js
 
 src/components/user.service.js
+node_modules
+node_modules
