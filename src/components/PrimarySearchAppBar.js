@@ -12,11 +12,16 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import withCookies from 'react-cookie';
+import authService from './auth/auth.service';
+import Menu from '@mui/material/Menu';
+import { useNavigate } from 'react-router-dom';
+
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const MenuAppBar = () => {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -31,9 +36,20 @@ const MenuAppBar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting) => {
+    if(setting == 'Logout'){
+      handleLogout();
+      console.log('Logging out user');
+    }
     setAnchorElUser(null);
   };
+
+  const handleLogout = () => {
+    authService.logout();
+    alert('User logged out');
+    navigate('../');
+    
+  }
 
   return (
     <AppBar position="static">
@@ -69,7 +85,7 @@ const MenuAppBar = () => {
             >
               <MenuIcon />
             </IconButton>
-            <MenuIcon
+            <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -92,7 +108,7 @@ const MenuAppBar = () => {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
-            </MenuIcon>
+            </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
@@ -131,7 +147,7 @@ const MenuAppBar = () => {
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
-            <MenuIcon
+            <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -148,11 +164,11 @@ const MenuAppBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
-            </MenuIcon>
+            </Menu>
           </Box>
         </Toolbar>
       </Container>
