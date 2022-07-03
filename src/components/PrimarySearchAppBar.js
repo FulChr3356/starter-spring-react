@@ -41,6 +41,9 @@ const MenuAppBar = () => {
       handleLogout();
       console.log('Logging out user');
     }
+    else if (setting == 'Profile'){
+      navigate('./profile');
+    }
     setAnchorElUser(null);
   };
 

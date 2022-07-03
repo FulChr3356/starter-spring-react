@@ -1,5 +1,5 @@
 
-import React, { Component ,useState} from "react";
+import React, { Component ,useEffect,useState} from "react";
 import {  Link } from "react-router-dom";
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -23,8 +23,13 @@ const required = value => {
         const [password, setPassword] = useState('');
         const [loading, setLoading] = useState('');
         const [message, setMessage] = useState('');
-
         const navigate = useNavigate();
+        useEffect(() => {
+          if(AuthService.getCurrentUser() != undefined){
+            navigate('./profile');
+          }
+        });
+        
         
 
         const handleLogin = e => {
@@ -35,7 +40,7 @@ const required = value => {
             AuthService.login(username,password).then(
               () => {
                 alert('User logged in successfully');
-                navigate('./home');
+                navigate('./profile');
               },
               error => {
                 alert('Invalid creditials');
